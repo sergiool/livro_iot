@@ -1,8 +1,6 @@
 #include <ESP8266WiFi.h>
 #include <MySQL_Connection.h>
 #include <MySQL_Cursor.h>
-#define LM35  A0 // Define o pino que irá ler a saída do LM35
-
 WiFiClient client;
 MySQL_Connection conn(&client);
 
@@ -35,19 +33,37 @@ void setup() {
 }
 
 void loop() {
-  double temperatura = analogRead(LM35)*0.322;
-  char toStr[10];
-  // SQL Exemplo
-  MySQL_Cursor cur_mem(&conn);
-  String INSERT_SQL = "INSERT INTO iotiot.registro_temp (valor) VALUES (";
-  INSERT_SQL += dtostrf(temperatura, 3, 1, toStr);
-  INSERT_SQL += ")";
 
-  Serial.println("Gravando dados ...");
+  // Inicia as variáveis
+  MySQL_Cursor cur_mem(&conn);
+  char SELECT_SQL[] = "SELECT * FROM iotiot.registro_temp";
+  Serial.println("Consultando dados ...");
 
   // Executa a consulta
-  cur_mem.execute(INSERT_SQL.c_str());
+  cur_mem.execute(SELECT_SQL);
+
+  // Obtém o cabeçalho das colunas
+  column_names *cols = cur_mem.get_columns();
+  for (int f = 0; f < cols->num_fields; f++) {
+    Serial.print(cols->fields[f]->name);
+    if (f < cols->num_fields-1)
+      Serial.print('|');
+  }
+  Serial.println();
+
+  // Obtém as linhas
+  row_values *row = NULL;
+  while (row = cur_mem.get_next_row()) {
+    for (int f = 0; f < cols->num_fields; f++) { // Para cada linha
+      Serial.print(row->values[f]);
+      if (f < cols->num_fields-1)
+        Serial.print('|');
+    }
+    Serial.println();
+  }
+
   // Libera memória. Importante devido às limitações dessa plataforma
   cur_mem.close();
   delay(2000);
+
 }
