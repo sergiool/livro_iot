@@ -1,7 +1,7 @@
 #include <ESP8266WiFi.h>
 
-const char* ssid = "dd-wrt";
-const char* senha = "kedma256";
+const char* ssid = "ssid";
+const char* senha = "password";
 
 void setup() {
   Serial.begin(115200);

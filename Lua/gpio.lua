@@ -1,5 +1,7 @@
-﻿pin = 1
-gpio.mode(pin,gpio.OUTPUT)
-gpio.write(pin,gpio.HIGH)
-gpio.mode(pin,gpio.INPUT)
-print(gpio.read(pin))
+pinw=0
+gpio.mode(pinw,gpio.OUTPUT)
+gpio.write(pinw,gpio.HIGH)
+pinr=1
+gpio.mode(pinr,gpio.INPUT)
+print(gpio.read(pinr))
+

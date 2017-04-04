@@ -1,6 +1,5 @@
 #include <ESP8266WiFi.h>
 #include <MQTTClient.h>
-#include <Arduino.h>
 
 #define SOLENOIDE D0
 

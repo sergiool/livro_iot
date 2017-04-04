@@ -1,6 +1,6 @@
-﻿print(wifi.sta.getip())
---nil
 wifi.setmode(wifi.STATION)
+﻿print(wifi.sta.getip())
+--nil ou IP previamente configurado
 wifi.sta.config("SSID","password")
 wifi.sta.connect()
 while (wifi.sta.getip() == nil) do

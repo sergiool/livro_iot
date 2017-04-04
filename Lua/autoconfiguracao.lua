@@ -1,6 +1,6 @@
-﻿enduser_setup.start(
+enduser_setup.start(
   function()
-    print("Conectado ao WiFi como:" .. wifi.sta.getip())
+    print("Conectado ao WiFi como: " .. wifi.sta.getip())
     enduser_setup.stop()
   end,
   function(err, str)

@@ -23,7 +23,7 @@ void setup() {
 
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
-    Serial.print(“.”);
+    Serial.print(".");
   }
 
   Serial.println("");
@@ -57,7 +57,7 @@ void loop() {
   }
 
   // Lê a primeira linha da requisição
-  String req = client.readStringUntil(‘\r’);
+  String req = client.readStringUntil('\r');
   Serial.println(req);
   client.flush();
 
@@ -73,8 +73,8 @@ void loop() {
   // Envia resposta em formato HTML
   String s = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n";
   s +="<!DOCTYPE HTML>\r\n<html><h1>Exemplo WEB - Pisca</h1>";
-  s +="<p><a href=\”?com=PISCA\”><button><b>PISCA LED</b> </button></a>";
-  s +="<p><a href=\”?com=DESLIGA\”><button><b>DESLIGA</b> </button></a>";
+  s +="<p><a href=\"?com=PISCA\"><button><b>PISCA LED</b> </button></a>";
+  s +="<p><a href=\"?com=DESLIGA\"><button><b>DESLIGA</b> </button></a>";
   s +="</html>\n";
 
   client.print(s);
