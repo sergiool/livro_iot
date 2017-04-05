@@ -27,6 +27,12 @@ void setup() {
 
   pinMode(D0, OUTPUT); // Saída que aciona a abertura da porta
 
+  SPIFFS.begin(); // Inicia o sistema de arquivos
+  if (!SPIFFS.exists("/f.txt")) {
+      Serial.println("Não localizou o arquivo. Formatando ...");
+      SPIFFS.format();
+  }
+
   WiFi.begin("ssid", "senha");
   int tentativas = 0;
   while ((WiFi.status() != WL_CONNECTED) && tentativas++ < 20) {
