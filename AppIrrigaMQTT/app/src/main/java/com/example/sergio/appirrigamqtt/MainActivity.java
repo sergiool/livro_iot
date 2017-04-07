@@ -54,7 +54,6 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
-
 public class MainActivity extends AppCompatActivity {
 
     // Declarações de Campos EditText
@@ -62,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar pB;
     private ImageView iV;
     private TextView uText;
-    private TextView nText;
-
 
     // Declaração para as mensagens de depuração
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -89,21 +86,18 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void messageArrived(String topic, MqttMessage message) throws Exception {
-            Log.d(TAG, topic + ": " + new String(message.getPayload()));
+            String msg = new String(message.getPayload());
+            Log.d(TAG, topic + ": " + msg);
             if (topic.equals("/Umidade")) { // Apresentada graficamente
-                int Umidade = Integer.parseInt(message.getPayload().toString());
+                int Umidade = Integer.parseInt(msg);
                 pB.setProgress(Umidade);
-                uText.setText(message.getPayload().toString());
-                Log.d(TAG, "Atualizando progresso: " + Umidade);
+                uText.setText(msg);
             } else if (topic.equals("/NivelAgua")) {
-                nText.setText(message.getPayload().toString());
-                if (message.getPayload().toString().equals("Alto")) {
-                    Log.d(TAG, "Atualizando imagem!");
+                if (msg.equals("Alto"))
                     iV.setImageResource(R.drawable.caixacheia);
-                } else
+                else
                     iV.setImageResource(R.drawable.caixavazia);
             } else {
-                Log.d(TAG, "Incoming message: " + new String(message.getPayload()));
                 // The message was published
                 int mId = 99;
                 mBuilder.setSmallIcon(R.drawable.caixacheia)
@@ -144,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-
     // Método de inicialização da Activity
     protected void onCreate(Bundle savedInstanceState) {
         // Inicializa interfaces
@@ -154,9 +147,7 @@ public class MainActivity extends AppCompatActivity {
         UMinima = (EditText) findViewById(R.id.editTextMax);
         pB = (ProgressBar) findViewById(R.id.progressBar);
         iV = (ImageView) findViewById(R.id.imageView);
-        uText = (TextView) findViewById(R.id.textView);
-        nText = (TextView) findViewById(R.id.textView2);
-
+        uText = (TextView) findViewById(R.id.textViewUm);
 
         initMQTT();
         connectMQTT();
@@ -164,14 +155,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // Método de incialização do cliente MQTT
     private void initMQTT(){
         client=new MqttAndroidClient(this.getApplicationContext(),
                 "tcp://broker.shiftr.io:1883", clientId);
         client.setCallback(ClientCallBack);
     }
 
+    // Inicialização do MQTT e conexão inicial
     private void connectMQTT(){
-        // Inicialização do MQTT e conexão inicial
         try {
             MqttConnectOptions options = new MqttConnectOptions();
             options.setUserName("cap_iot_");
@@ -184,9 +176,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    // Cria as classes necessárias para notificações: Intent, PendingIntent e acessa o mNotificationManager
     private void startNotifications(){
-        // Cria as classes necessárias para notificações: Intent, PendingIntent e acessa o mNotificationManager
         Intent resultIntent = new Intent(this, MainActivity.class);
         stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(resultIntent);
@@ -201,20 +192,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // Assina as mensagens MQTT desejadas
     public void subscribeMQTT() {
-
         int qos = 1;
         try {
             if (!client.isConnected()){
                 connectMQTT();
             }
             IMqttToken subTokenU = client.subscribe("/Umidade", qos);
-            IMqttToken subTokenB = client.subscribe("/Bomba", qos);
-            IMqttToken subTokenS = client.subscribe("/Solenoide", qos);
-            IMqttToken subTokenN = client.subscribe("/NivelAgua", qos);
             subTokenU.setActionCallback(MqttCallBackApp);
+            IMqttToken subTokenB = client.subscribe("/Bomba", qos);
             subTokenB.setActionCallback(MqttCallBackApp);
+            IMqttToken subTokenS = client.subscribe("/Solenoide", qos);
             subTokenS.setActionCallback(MqttCallBackApp);
+            IMqttToken subTokenN = client.subscribe("/NivelAgua", qos);
             subTokenN.setActionCallback(MqttCallBackApp);
 
         } catch (MqttException e) {
@@ -222,7 +213,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void onClickPub(View v) {
+    // Trata o clique do botão, publicando as mensagens
+    public void onClickPub(View v) { // Evento disparado no Clique do botão
         try {
             if (!client.isConnected()){
                 connectMQTT();
@@ -232,8 +224,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (UnsupportedEncodingException | MqttException e) {
             e.printStackTrace();
         }
-// Perform action on click
+
     }
 }
-
 
