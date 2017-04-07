@@ -9,8 +9,6 @@
     <GridLayout
         android:layout_width="368dp"
         android:layout_height="495dp"
-        android:layout_alignRight="@+id/button1"
-        android:layout_alignEnd="@+id/button1"
         android:columnCount="2"
         android:rowCount="6"
         tools:layout_editor_absoluteY="8dp"
