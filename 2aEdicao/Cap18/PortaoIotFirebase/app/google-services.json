@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "408755039772",
+    "firebase_url": "https://portaoiotfirebase.firebaseio.com",
+    "project_id": "portaoiotfirebase",
+    "storage_bucket": "portaoiotfirebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:408755039772:android:3558469a3159830766b9d9",
+        "android_client_info": {
+          "package_name": "com.sergiool.portaoiotfirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "408755039772-m2teupu5ojkbcmfv68bo315sokl7mrr8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sergiool.portaoiotfirebase",
+            "certificate_hash": "212384bb7a0466497993f701dc6c49d38ea0f85e"
+          }
+        },
+        {
+          "client_id": "408755039772-d87eh35h9bpkpe3fcdap1nmb4d258cma.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3BIJLE3jb_TvOyTjEOczPVJgdSWSgH6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "408755039772-d87eh35h9bpkpe3fcdap1nmb4d258cma.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
